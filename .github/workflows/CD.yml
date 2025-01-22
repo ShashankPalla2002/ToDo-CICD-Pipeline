@@ -1,0 +1,25 @@
+name: ToDo App Pipeline
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the files
+      uses: actions/checkout@v2
+
+    - name: Deploy to EC2
+      uses: easingthemes/ssh-deploy@main
+      with:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TARGET: /var/www/html
+        SOURCE: ./
+        SCRIPT_AFTER: |
+          sudo systemctl restart apache2
+        
