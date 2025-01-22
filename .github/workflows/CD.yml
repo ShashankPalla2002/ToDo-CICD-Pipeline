@@ -15,8 +15,10 @@ jobs:
     - name: Start SSH agent
       run: |
         eval $(ssh-agent -s)
+        mkdir -p ~/.ssh  # Create the .ssh directory if it doesn't exist
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
+    
 
     - name: Deploy to EC2
       uses: easingthemes/ssh-deploy@main
