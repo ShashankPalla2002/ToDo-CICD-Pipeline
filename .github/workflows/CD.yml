@@ -18,6 +18,11 @@ jobs:
         mkdir -p ~/.ssh  # Create the .ssh directory if it doesn't exist
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
+
+    - name: Debug SSH Key
+      run: |
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "echo SSH connection successful"
+      
     
 
     - name: Deploy to EC2
